@@ -1,107 +1,115 @@
-# PDF Data Extraction & ETL Pipeline
+# Extractor de datos desde formularios PDF
 
-A Python command-line tool that extracts selected information from interactive PDF forms and consolidates the results into an Excel report.
+Este proyecto nació para reducir el trabajo manual de revisar varios formularios PDF y pasar su información a una hoja de cálculo. El programa lee los campos de formularios PDF interactivos, identifica el último mes con participación registrada y genera un reporte de Excel con los datos principales.
 
-## Project overview
+## ¿Qué hace?
 
-The script processes a folder of PDF forms. For each form, it reads the participant name and monthly activity fields, identifies the latest month with recorded participation, retrieves the corresponding hours and course information, classifies the record, and adds it to a consolidated Excel file.
+- Procesa varios archivos PDF de una carpeta.
+- Extrae información de los campos del formulario con `pypdf`.
+- Identifica el último mes en el que aparece participación registrada (de septiembre a agosto).
+- Recupera las horas y la información de cursos de ese mes.
+- Clasifica cada registro con los indicadores del formulario.
+- Consolida los resultados en un archivo Excel con `pandas` y `openpyxl`.
+- Si un archivo tiene un error, lo reporta y continúa con los demás.
 
-## Features
+## Cómo funciona
 
-- Batch processing of PDF files in a folder.
-- Extraction of interactive PDF form fields with `pypdf`.
-- Identification of the latest month with recorded participation (September–August).
-- Extraction of the corresponding hours and course information.
-- Record classification using the form's auxiliary and regular-publisher indicators (`AUX`, `REG`, or `PUB`).
-- Consolidation of records into an Excel report with `pandas` and `openpyxl`.
-- Per-file error handling so one invalid PDF does not stop the remaining batch.
-- Configurable input and output paths through command-line arguments.
+1. Coloco los formularios PDF en una carpeta.
+2. El programa lee los campos interactivos de cada archivo.
+3. Revisa los meses en orden y conserva la información del último mes marcado.
+4. Extrae los datos relacionados con ese mes.
+5. Agrega el registro a una tabla.
+6. Genera un archivo Excel con el resultado.
 
-## Technologies
+## Herramientas utilizadas
 
 - Python
 - pypdf
 - pandas
 - openpyxl
 
-## How it works
+## Instalación
 
-1. Read the PDF files from the input directory.
-2. Retrieve the interactive form fields from each PDF.
-3. Find the latest month where the participation checkbox is selected.
-4. Extract the associated hours and course fields.
-5. Determine the record category from the auxiliary and regular-publisher checkboxes.
-6. Write all successfully processed records to an Excel report.
+Se necesita Python 3.10 o una versión posterior.
 
-## Setup
-
-Use Python 3.10 or later.
+Crea y activa un entorno virtual:
 
 ```bash
 python -m venv .venv
 ```
 
-Activate the virtual environment:
-
-**Windows PowerShell**
+En Windows PowerShell:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-**macOS / Linux**
+En macOS o Linux:
 
 ```bash
 source .venv/bin/activate
 ```
 
-Install dependencies:
+Instala las dependencias:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Usage
+## Cómo ejecutarlo
 
-Place the PDF forms in a folder named `pdfs` next to `extractor.py`, then run:
+Coloca los PDF en una carpeta llamada `pdfs`, al mismo nivel que `extractor.py`, y ejecuta:
 
 ```bash
 python extractor.py
 ```
 
-By default, the report is saved as `Resumen.xlsx` in the current directory.
+Por defecto, el reporte se guarda como `Resumen.xlsx`.
 
-Custom paths can be provided:
+También puedes indicar otras rutas:
 
 ```bash
-python extractor.py --input-dir "path/to/pdfs" --output "reports/Resumen.xlsx"
+python extractor.py --input-dir "ruta/a/los/pdf" --output "reportes/Resumen.xlsx"
 ```
 
-Run `python extractor.py --help` to see all available options.
+Para consultar las opciones disponibles:
 
-## Expected PDF form fields
+```bash
+python extractor.py --help
+```
 
-The script relies on the field identifiers used by the source PDF form, including:
+## Ejemplo del resultado
 
-- `900_1_Text_SanSerif` — participant name.
-- `900_10_CheckBox` — regular-publisher indicator.
-- `901_{month}_CheckBox` — monthly participation indicator.
-- `902_{month}_Text_C_SanSerif` — course information.
-- `903_{month}_CheckBox` — auxiliary-pioneer indicator.
-- `904_{month}_S21_Value` — reported hours.
+El reporte contiene estas columnas:
 
-The month indexes range from `20` (September) through `31` (August).
+| Nombre | Tipo | Mes | Horas | Cursos |
+|---|---|---|---:|---:|
+| Persona de ejemplo | REG | Octubre | 12 | 2 |
+| Registro de prueba | AUX | Noviembre | 15 | 3 |
 
-## Privacy
+Los datos de esta tabla son ficticios y solo muestran la estructura del resultado.
 
-This repository does not include original PDF forms or generated Excel reports. Those files may contain personal or confidential information and should remain local. Use synthetic or anonymized examples for demonstrations.
+## Pruebas
 
-## Limitations
+Para ejecutar las pruebas incluidas:
 
-- The script is designed for PDFs containing interactive form fields with the identifiers listed above; it does not perform OCR on scanned images.
-- The month selection and classification rules follow the structure and indicators of the source form.
-- A PDF that lacks readable form fields or the required name field is reported as an error and skipped.
+```bash
+python -m unittest test_extractor.py -v
+```
 
-## Project status
+Las pruebas comprueban la lectura de casillas, la selección del último mes marcado y la clasificación de los registros. No sustituyen una prueba completa con formularios PDF reales.
 
-Portfolio-ready refactoring in progress.
+## Consideraciones y límites
+
+- El programa necesita PDF con campos de formulario interactivos que utilicen los identificadores esperados por el código.
+- No realiza OCR; por lo tanto, no extrae información de documentos que sean únicamente imágenes escaneadas.
+- Si un PDF no contiene los campos necesarios o no tiene un nombre legible, se reporta como error y se omite.
+- La selección del mes y las reglas de clasificación siguen la estructura del formulario para el que se creó el programa.
+
+## Privacidad
+
+No incluyo aquí los formularios originales ni los reportes generados, porque pueden contener información personal. Para probar el programa, utiliza archivos propios con datos ficticios o anonimizados.
+
+## Estado del proyecto
+
+Versión de portafolio. La lógica principal está documentada y cuenta con pruebas unitarias básicas; todavía se puede ampliar la cobertura con archivos PDF de ejemplo anonimizados.
