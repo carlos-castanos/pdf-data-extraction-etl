@@ -1,48 +1,44 @@
 # PDF Data Extraction & ETL Pipeline
 
-A Python project for extracting structured information from PDF documents, validating records, and transforming the results into Excel reports.
+A Python-based automation tool that extracts structured information from PDF forms and consolidates the results into an Excel report.
 
 ## Project Overview
 
-This project demonstrates how a repetitive document-processing workflow can be transformed into a more structured and efficient data pipeline.
+This project automates the processing of multiple PDF records by extracting form fields, identifying the latest month with recorded participation, classifying records, and generating a consolidated Excel dataset.
 
-The workflow is based on a practical automation use case involving the extraction of information from PDF records and the consolidation of the results into an Excel report.
+## Key Features
 
-## Objectives
+- Batch processing of PDF files.
+- Extraction of structured form fields using Python.
+- Identification of the latest month with recorded participation.
+- Extraction of reported hours and course information.
+- Record classification based on form selections.
+- Name normalization and Excel report generation.
 
-- Extract relevant information from PDF documents.
-- Transform unstructured document content into structured records.
-- Apply data validation and consistency checks.
-- Consolidate processed records into an Excel report.
-- Reduce repetitive manual data-entry work.
+## Data Processing Workflow
+
+1. **Input:** A folder containing multiple PDF forms.
+2. **Extraction:** Retrieve information from interactive PDF form fields.
+3. **Transformation:** Identify the latest month with participation and determine the corresponding record attributes.
+4. **Classification:** Assign a record category based on the selected form fields.
+5. **Output:** Generate a consolidated Excel report using pandas.
 
 ## Technologies
 
 - Python
-- PDF processing
-- Excel and structured datasets
-- Data extraction and transformation
-- Data validation and quality control
-
-## Pipeline
-
-1. **Input:** PDF documents.
-2. **Extraction:** Read and retrieve relevant information.
-3. **Transformation:** Organize extracted values into structured records.
-4. **Validation:** Check records for consistency and completeness.
-5. **Output:** Consolidated Excel report.
+- pypdf
+- pandas
+- openpyxl
+- PDF form field extraction
+- Excel report generation
 
 ## Business Value
 
-The real-world workflow that inspired this project processes nearly 200 PDF records and produces a consolidated Excel report, saving almost one workday of manual effort.
-
-## Repository Structure
-
-The repository will contain the extraction code, dependencies, sample materials, and tests as the project develops.
+The tool reduces repetitive manual data collection by processing multiple PDF records and consolidating relevant information into a structured spreadsheet.
 
 ## Data Privacy
 
-Sample files and examples will use synthetic or anonymized information. No confidential documents or personal records are included.
+This repository will use anonymized or synthetic examples. No original personal records or confidential documents are included.
 
 ## Project Status
 
