@@ -1,3 +1,5 @@
+![Pruebas automáticas](https://github.com/carlos-castanos/pdf-data-extraction-etl/actions/workflows/tests.yml/badge.svg)
+
 # Extractor de datos desde formularios PDF
 
 Este proyecto nació para reducir el trabajo manual de revisar varios formularios PDF y pasar su información a una hoja de cálculo. El programa lee los campos de formularios PDF interactivos, identifica el último mes con participación registrada y genera un reporte de Excel con los datos principales.
